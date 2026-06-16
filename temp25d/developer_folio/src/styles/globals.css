@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Cal Sans';
+  src: url('/fonts/CalSans-SemiBold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  :root {
+    --bg:        #0F172A;
+    --primary:   #38BDF8;
+    --secondary: #1E293B;
+    --text:      #F8FAFC;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Roboto', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6, .font-heading {
+    font-family: 'Cal Sans', 'Inter', sans-serif;
+    font-weight: 700;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar        { width: 8px; }
+  ::-webkit-scrollbar-track  { background: var(--bg); }
+  ::-webkit-scrollbar-thumb  { background: var(--secondary); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+}
+
+@layer components {
+  /* Commit graph animation — referenced by Tailwind's arbitrary animate-[] values */
+  @keyframes pulse-opacity {
+    0%   { opacity: 0.7; }
+    100% { opacity: 1;   }
+  }
+}
