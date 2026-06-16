@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg:        #FCFCFC;
+  --primary:   #B7935B;
+  --secondary: #F0F0F0;
+  --text:      #121212;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Montserrat', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6, .font-heading {
+  font-family: 'Cinzel', serif;
+}
+
+::selection {
+  background-color: rgba(183, 147, 91, 0.2);
+  color: var(--primary);
+}
+
+/* Hide scrollbar for the lookbook carousel */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Luxury underline animation */
+.nav-link { position: relative; }
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 1px;
+  bottom: -4px;
+  left: 50%;
+  background-color: var(--primary);
+  transition: all 0.4s ease;
+  transform: translateX(-50%);
+}
+.nav-link:hover::after { width: 100%; }
