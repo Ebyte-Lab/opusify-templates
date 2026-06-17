@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #F9F6F0;
+  --primary: #4A7C59;
+  --secondary: #E3D5CA;
+  --text: #2C3E2D;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* Custom organic shape keyframes */
+@keyframes morph {
+  0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+  100% { border-radius: 60% 40% 30% 70% / 50% 60% 40% 50%; }
+}
+
+@keyframes morph-reverse {
+  0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+  100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+}
+
+/* Apply animations if user has no reduced motion preference */
+@media (prefers-reduced-motion: no-preference) {
+  .organic-shape {
+    animation: morph 8s ease-in-out infinite alternate;
+  }
+  .organic-shape-2 {
+    animation: morph-reverse 10s ease-in-out infinite alternate;
+  }
+}
+
+/* Default shapes (frozen in place) for reduced motion */
+.organic-shape {
+  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+}
+.organic-shape-2 {
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+}
+
+/* Custom scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--secondary);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
