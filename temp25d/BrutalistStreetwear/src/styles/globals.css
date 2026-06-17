@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #000000;
+  --primary: #FF0000;
+  --secondary: #222222;
+  --text: #FFFFFF;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'IBM Plex Mono', monospace;
+  -webkit-font-smoothing: antialiased;
+  cursor: crosshair;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6, .font-heading {
+  font-family: 'Anton', sans-serif;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Brutalist borders */
+.heavy-border {
+  border: 2px solid var(--text);
+}
+.heavy-border-b {
+  border-bottom: 2px solid var(--text);
+}
+.heavy-border-r {
+  border-right: 2px solid var(--text);
+}
+.heavy-border-t {
+  border-top: 2px solid var(--text);
+}
+.heavy-border-l {
+  border-left: 2px solid var(--text);
+}
+
+/* Glitch / Brutalist Hover State */
+.brutal-hover {
+  transition: all 0.1s ease;
+}
+.brutal-hover:hover:not(:disabled) {
+  transform: translate(-4px, -4px);
+  box-shadow: 4px 4px 0px var(--primary);
+}
+.brutal-hover-invert:hover:not(:disabled) {
+  background-color: var(--text);
+  color: var(--bg);
+}
+
+/* Image hover filter */
+.product-img-container img {
+  transition: filter 0.2s, transform 0.2s;
+}
+.product-img-container:hover img {
+  filter: contrast(1.5) grayscale(1);
+  transform: scale(1.05);
+}
+
+/* Custom marquee keyframe animation */
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 10s linear infinite;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+  border-left: 2px solid var(--secondary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+}
+
+::selection {
+  background: var(--primary);
+  color: var(--text);
+}
