@@ -122,3 +122,22 @@ npm run build
 ```bash
 npm run preview
 ```
+
+---
+
+## 🗺️ Routing & Category Pages
+
+The storefront implements a lightweight, native, hash-based URL routing mechanism. Clicking the header navigation links routes the user to category-specific landing pages:
+
+* **Path `#/category/laptops`** -> Displays the dedicated laptops category matrix page.
+* **Path `#/category/audio`** -> Displays the dedicated audio category matrix page.
+* **Path `#/category/accessories`** -> Displays the dedicated accessories category matrix page.
+* **Path `#/` or other hashes** -> Fallback default home landing viewport.
+
+### Category Page Structure (`src/components/sections/CategoryPage.tsx`)
+The `CategoryPage` component is fully modular and dynamically fetches product arrays specific to that category. Features include:
+1. **Dynamic Breadcrumbs**: Offers interactive home links and category indicators.
+2. **Local Filters**: Provides category-specific sidebar controls (In Stock Only and Cyber Edition).
+3. **Hardware Matrix Grid**: Adapts to the viewport (1-3 columns) to list matching asset cards.
+4. **Link Back to Core Matrix**: A simple button control allowing developers or users to return back to the home page viewport.
+

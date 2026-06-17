@@ -8,9 +8,15 @@ export const Header: React.FC = () => {
   const scrollToSection = useSmoothScrollNav();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
-    e.preventDefault();
-    scrollToSection(sectionId);
+  const handleSupportClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const isHome =
+      window.location.hash === '' ||
+      window.location.hash === '#/' ||
+      !window.location.hash.includes('category');
+    if (isHome) {
+      e.preventDefault();
+      scrollToSection('support');
+    }
     setMobileMenuOpen(false);
   };
 
@@ -19,11 +25,7 @@ export const Header: React.FC = () => {
       <div className="max-w-[1600px] mx-auto px-6 h-20 flex items-center justify-between">
         {/* Logo */}
         <a
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
+          href="#/"
           className="font-heading text-2xl text-white flex items-center gap-2 group focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg rounded outline-none"
         >
           <div className="w-8 h-8 bg-primary rounded transform group-hover:rotate-45 transition-transform duration-300 flex items-center justify-center">
@@ -35,29 +37,26 @@ export const Header: React.FC = () => {
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center space-x-8">
           <a
-            href="#laptops"
-            onClick={(e) => handleNavClick(e, 'laptops')}
+            href="#/category/laptops"
             className="font-heading text-xs tracking-widest hover:text-primary transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg rounded outline-none"
           >
             LAPTOPS
           </a>
           <a
-            href="#audio"
-            onClick={(e) => handleNavClick(e, 'audio')}
+            href="#/category/audio"
             className="font-heading text-xs tracking-widest hover:text-primary transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg rounded outline-none"
           >
             AUDIO
           </a>
           <a
-            href="#accessories"
-            onClick={(e) => handleNavClick(e, 'accessories')}
+            href="#/category/accessories"
             className="font-heading text-xs tracking-widest hover:text-primary transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg rounded outline-none"
           >
             ACCESSORIES
           </a>
           <a
             href="#support"
-            onClick={(e) => handleNavClick(e, 'support')}
+            onClick={handleSupportClick}
             className="font-heading text-xs tracking-widest hover:text-primary transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg rounded outline-none"
           >
             SUPPORT
@@ -92,29 +91,29 @@ export const Header: React.FC = () => {
       {mobileMenuOpen && (
         <div className="md:hidden bg-bg border-b border-secondary px-6 py-4 flex flex-col space-y-4">
           <a
-            href="#laptops"
-            onClick={(e) => handleNavClick(e, 'laptops')}
+            href="#/category/laptops"
+            onClick={() => setMobileMenuOpen(false)}
             className="font-heading text-sm tracking-widest hover:text-primary transition-colors py-2 focus-visible:ring-2 focus-visible:ring-primary rounded outline-none block"
           >
             &gt; LAPTOPS
           </a>
           <a
-            href="#audio"
-            onClick={(e) => handleNavClick(e, 'audio')}
+            href="#/category/audio"
+            onClick={() => setMobileMenuOpen(false)}
             className="font-heading text-sm tracking-widest hover:text-primary transition-colors py-2 focus-visible:ring-2 focus-visible:ring-primary rounded outline-none block"
           >
             &gt; AUDIO
           </a>
           <a
-            href="#accessories"
-            onClick={(e) => handleNavClick(e, 'accessories')}
+            href="#/category/accessories"
+            onClick={() => setMobileMenuOpen(false)}
             className="font-heading text-sm tracking-widest hover:text-primary transition-colors py-2 focus-visible:ring-2 focus-visible:ring-primary rounded outline-none block"
           >
             &gt; ACCESSORIES
           </a>
           <a
             href="#support"
-            onClick={(e) => handleNavClick(e, 'support')}
+            onClick={handleSupportClick}
             className="font-heading text-sm tracking-widest hover:text-primary transition-colors py-2 focus-visible:ring-2 focus-visible:ring-primary rounded outline-none block"
           >
             &gt; SUPPORT

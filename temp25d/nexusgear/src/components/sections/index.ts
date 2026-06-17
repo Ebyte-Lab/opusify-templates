@@ -6,3 +6,4 @@ export * from './SpecsAccordion';
 export * from './AccordionItem';
 export * from './ReviewsCarousel';
 export * from './ReviewCard';
+export * from './CategoryPage';

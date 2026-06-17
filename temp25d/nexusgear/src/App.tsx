@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CartProvider } from './components/cart/CartProvider';
 import { useCart } from './hooks/useCart';
 import { CartOverlay } from './components/cart/CartOverlay';
 import { CartDrawer } from './components/cart/CartDrawer';
 import { CheckoutModal } from './components/cart/CheckoutModal';
 import { Header, Footer } from './components/layout';
-import { Hero3DViewer, FilterSidebar, ProductGrid, SpecsAccordion, ReviewsCarousel } from './components/sections';
+import {
+  Hero3DViewer,
+  FilterSidebar,
+  ProductGrid,
+  SpecsAccordion,
+  ReviewsCarousel,
+  CategoryPage,
+} from './components/sections';
 import { products } from './data/products';
 
 interface FilterParams {
@@ -18,6 +25,7 @@ interface FilterParams {
 const AppContent: React.FC = () => {
   const { clearCart } = useCart();
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [currentHash, setCurrentHash] = useState(window.location.hash);
   const [filters, setFilters] = useState<FilterParams>({
     category: null,
     inStockOnly: false,
@@ -25,7 +33,27 @@ const AppContent: React.FC = () => {
     refurbishedOnly: false,
   });
 
-  // Dynamic filtering logic based on sidebar controls
+  // Keep track of routing hash transitions
+  useEffect(() => {
+    const handleHashChange = () => {
+      setCurrentHash(window.location.hash);
+      // Scroll to top of viewport on hash route changes
+      window.scrollTo(0, 0);
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  // Check if hash matches a category path
+  // Category path format: #/category/<categoryName>
+  const getCategoryFromHash = (): 'laptops' | 'audio' | 'accessories' | null => {
+    const match = currentHash.match(/^#\/category\/(laptops|audio|accessories)$/);
+    return match ? (match[1] as 'laptops' | 'audio' | 'accessories') : null;
+  };
+
+  const activeCategory = getCategoryFromHash();
+
+  // Dynamic filtering logic based on sidebar controls (Home Page)
   const filteredProducts = products.filter((product) => {
     if (filters.category && product.category !== filters.category) {
       return false;
@@ -53,21 +81,27 @@ const AppContent: React.FC = () => {
       {/* Header Navigation */}
       <Header />
 
-      {/* Main Page Sections */}
+      {/* Main Page Content */}
       <main className="pt-20">
-        <Hero3DViewer />
-        
-        {/* Shop Section */}
-        <section className="max-w-[1600px] mx-auto px-6 py-12 flex flex-col lg:flex-row gap-12 relative items-start">
-          <FilterSidebar filters={filters} onChangeFilters={setFilters} />
-          <ProductGrid products={filteredProducts} />
-        </section>
+        {activeCategory ? (
+          <CategoryPage category={activeCategory} />
+        ) : (
+          <>
+            <Hero3DViewer />
+            
+            {/* Shop Section */}
+            <section className="max-w-[1600px] mx-auto px-6 py-12 flex flex-col lg:flex-row gap-12 relative items-start">
+              <FilterSidebar filters={filters} onChangeFilters={setFilters} />
+              <ProductGrid products={filteredProducts} />
+            </section>
 
-        {/* Specifications Accordion */}
-        <SpecsAccordion />
+            {/* Specifications Accordion */}
+            <SpecsAccordion />
 
-        {/* User Reviews Snap Carousel */}
-        <ReviewsCarousel />
+            {/* User Reviews Snap Carousel */}
+            <ReviewsCarousel />
+          </>
+        )}
       </main>
 
       {/* Footer Details */}
