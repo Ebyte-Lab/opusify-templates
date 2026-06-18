@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: var(--bg);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-text: var(--text);
+  
+  --font-heading: "Outfit", sans-serif;
+  --font-body: "JetBrains Mono", monospace;
+}
+
+:root {
+  --bg: #121212;
+  --primary: #A855F7; /* Purple 500 */
+  --secondary: #27272A; /* Zinc 800 */
+  --text: #E4E4E7; /* Zinc 200 */
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6, .font-heading {
+  font-family: var(--font-heading);
+}
+
+/* Custom Scrollbar for IDE feel */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--secondary);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* Custom Selection style */
+::selection {
+  background-color: rgba(168, 85, 247, 0.3);
+  color: #A855F7;
+}
+
+/* Dropzone Active State */
+.dropzone-active {
+  border-color: var(--primary) !important;
+  background-color: rgba(168, 85, 247, 0.1) !important;
+}
