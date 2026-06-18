@@ -1,0 +1,36 @@
+import { AttendanceRecord } from '../types/attendance';
+
+export const mockAttendance: Record<string, AttendanceRecord[]> = {
+  'leo-miller': [
+    { date: '2026-06-18', status: 'present' },
+    { date: '2026-06-17', status: 'present' },
+    { date: '2026-06-16', status: 'present' },
+    { date: '2026-06-15', status: 'present' },
+    { date: '2026-06-12', status: 'present' },
+    { date: '2026-06-11', status: 'tardy', note: 'Late due to orthodontist appointment.' },
+    { date: '2026-06-10', status: 'present' },
+    { date: '2026-06-09', status: 'present' },
+    { date: '2026-06-08', status: 'present' },
+    { date: '2026-06-05', status: 'present' },
+    { date: '2026-06-04', status: 'absent', note: 'Excused: Sore throat/fever. Doctor note provided.' },
+    { date: '2026-06-03', status: 'present' },
+    { date: '2026-06-02', status: 'present' },
+    { date: '2026-06-01', status: 'present' },
+  ],
+  'mia-miller': [
+    { date: '2026-06-18', status: 'present' },
+    { date: '2026-06-17', status: 'present' },
+    { date: '2026-06-16', status: 'present' },
+    { date: '2026-06-15', status: 'present' },
+    { date: '2026-06-12', status: 'absent', note: 'Excused: Family travel. Pre-arranged absence.' },
+    { date: '2026-06-11', status: 'present' },
+    { date: '2026-06-10', status: 'present' },
+    { date: '2026-06-09', status: 'present' },
+    { date: '2026-06-08', status: 'present' },
+    { date: '2026-06-05', status: 'present' },
+    { date: '2026-06-04', status: 'present' },
+    { date: '2026-06-03', status: 'tardy', note: 'Late due to severe traffic delay on Highway 10.' },
+    { date: '2026-06-02', status: 'present' },
+    { date: '2026-06-01', status: 'present' },
+  ],
+};
