@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #1e3a8a;       /* Academic Navy */
+  --secondary: #dbeafe;     /* Soft Blue */
+  --bg: #f8fafc;            /* Slate Bg */
+  --text: #0f172a;          /* Dark Slate Text */
+  --muted: #475569;         /* Muted Slate */
+  --accent: #f59e0b;        /* Gold/Amber Accent */
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* Custom chart circle animations and transitions */
+.chart-circle {
+  transition: stroke-dasharray 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
