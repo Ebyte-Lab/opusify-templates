@@ -1,0 +1,80 @@
+import { GradeRecord } from '../types/grades';
+
+export const mockGrades: Record<string, GradeRecord[]> = {
+  'leo-miller': [
+    {
+      subject: 'Math',
+      term: 'Term 1',
+      percentage: 92,
+      letterGrade: 'A-',
+      trend: 'stable',
+      teacherComment: 'Leo grasps numerical logic easily. Practicing mental math at home will eliminate minor errors.',
+    },
+    {
+      subject: 'Reading',
+      term: 'Term 1',
+      percentage: 96,
+      letterGrade: 'A',
+      trend: 'up',
+      teacherComment: 'Outstanding vocabulary growth. Leo has read 12 books independently this term!',
+    },
+    {
+      subject: 'Science',
+      term: 'Term 1',
+      percentage: 89,
+      letterGrade: 'B+',
+      trend: 'up',
+      teacherComment: 'Active participation in hands-on labs. Needs to spend a bit more time studying lab terminology.',
+    },
+    {
+      subject: 'Art',
+      term: 'Term 1',
+      percentage: 100,
+      letterGrade: 'A+',
+      trend: 'stable',
+      teacherComment: 'Incredible creative expressions. His watercolor landscapes are spectacular.',
+    },
+    {
+      subject: 'Music',
+      term: 'Term 1',
+      percentage: 94,
+      letterGrade: 'A',
+      trend: 'stable',
+      teacherComment: 'Excellent recorder player. Plays in beat and practices diligently.',
+    },
+  ],
+  'mia-miller': [
+    {
+      subject: 'Storytime & Phonics',
+      term: 'Term 1',
+      percentage: 98,
+      letterGrade: 'A+',
+      trend: 'stable',
+      teacherComment: 'Mia excels at letter sounds. She can sound out most three-letter words with ease.',
+    },
+    {
+      subject: 'Sandbox & Social Play',
+      term: 'Term 1',
+      percentage: 95,
+      letterGrade: 'A',
+      trend: 'up',
+      teacherComment: 'Wonderful behavior. Always willing to share resources and help clean up toy areas.',
+    },
+    {
+      subject: 'Drawing & Crafts',
+      term: 'Term 1',
+      percentage: 92,
+      letterGrade: 'A-',
+      trend: 'stable',
+      teacherComment: 'Mia is very creative. Her scissors-cutting skills are improving every day.',
+    },
+    {
+      subject: 'Kindergarten Music',
+      term: 'Term 1',
+      percentage: 97,
+      letterGrade: 'A',
+      trend: 'up',
+      teacherComment: 'Sings with clear pitch and displays wonderful rhythmic memory.',
+    },
+  ],
+};
