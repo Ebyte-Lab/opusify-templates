@@ -1,0 +1,16 @@
+export const student = {
+  name: 'Eleanor Shellstrop',
+  id: '9482015',
+  avatarUrl: 'https://picsum.photos/seed/eleanor/100/100',
+  major: 'Computer Science',
+  minor: 'Philosophy',
+  year: 'Junior (Year 3)',
+  advisor: 'Prof. Michael Holt',
+  email: 'e.shellstrop@university.edu',
+  phone: '+1 (555) 204-8831',
+  dob: 'March 14, 2003',
+  enrolledSince: 'Fall 2023',
+  expectedGraduation: 'May 2027',
+  gpa: 3.84,
+  standing: 'Good Standing',
+};
