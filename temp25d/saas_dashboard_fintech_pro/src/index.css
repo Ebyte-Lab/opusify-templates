@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #0b0f19;          /* Deep space black/blue */
+  --color-primary: #10B981;     /* Emerald green */
+  --color-secondary: #111827;   /* Charcoal grey/blue for cards */
+  --color-text: #F3F4F6;        /* Light text */
+  --color-accent-red: #EF4444;  /* Accent red for debit/loss values */
+
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: Consolas, Monaco, monospace;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* Ticker dynamic flash animations */
+@keyframes flash-green {
+  0% { background-color: rgba(16, 185, 129, 0.2); }
+  100% { background-color: transparent; }
+}
+@keyframes flash-red {
+  0% { background-color: rgba(239, 68, 68, 0.2); }
+  100% { background-color: transparent; }
+}
+.flash-up {
+  animation: flash-green 1s ease-out;
+}
+.flash-down {
+  animation: flash-red 1s ease-out;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-secondary);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
