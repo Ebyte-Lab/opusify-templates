@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg:        #F8FAFC;   /* page background — Slate 50      */
+    --primary:   #EC4899;   /* brand accent — Hot Pink 500     */
+    --secondary: #FFFFFF;   /* card/surface — pure white       */
+    --text:      #0F172A;   /* headings — Slate 900            */
+    --muted:     #64748B;   /* subtext — Slate 500             */
+    --border:    #E2E8F0;   /* dividers — Slate 200            */
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6, .font-heading {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+}
+
+/* Custom Scrollbar for horizontal scrolling pipeline boards */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #E2E8F0;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* Smooth drag indicator styling */
+.kanban-card.dragging {
+  opacity: 0.5;
+  transform: scale(0.98);
+  border: 2px dashed var(--primary);
+}
+
+/* Circular Progress Dash offset animations */
+.circle-progress {
+  transition: stroke-dashoffset 1s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease forwards;
+}
