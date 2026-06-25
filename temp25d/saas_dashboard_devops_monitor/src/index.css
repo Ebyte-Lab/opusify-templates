@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Sora:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg:           #09090B;   /* Zinc 950 — page background      */
+  --primary:      #FACC15;   /* Yellow 400 — brand accent        */
+  --secondary:    #18181B;   /* Zinc 900 — card surfaces         */
+  --text:         #A1A1AA;   /* Zinc 400 — body text             */
+  --text-bright:  #FFFFFF;   /* pure white — headings            */
+  --terminal-bg:  #030303;   /* near-black terminal screen       */
+  --neon-green:   #22C55E;   /* success / online status          */
+  --neon-red:     #EF4444;   /* error / critical alerts          */
+  --neon-blue:    #06B6D4;   /* info / network metrics           */
+  --border:       #27272A;   /* Zinc 800 — subtle dividers       */
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Fira Code', monospace;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6, .font-heading {
+  font-family: 'Sora', sans-serif;
+  color: var(--text-bright);
+}
+
+/* Continuous CRT Scanline Effect */
+.scanline::after {
+  content: "";
+  display: block;
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+    linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  background-size: 100% 4px, 6px 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* SVG Circular Gauges transition */
+.gauge-circle {
+  transition: stroke-dasharray 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Custom Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--secondary);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
