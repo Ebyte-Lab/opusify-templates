@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Laravel API Explorer — Boilerplate</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+    :root {
+      --bg:        #0d0f14;
+      --surface:   #13161d;
+      --surface2:  #1a1e28;
+      --surface3:  #222636;
+      --border:    #2a2f42;
+      --accent:    #6c63ff;
+      --accent2:   #a78bfa;
+      --green:     #34d399;
+      --red:       #f87171;
+      --yellow:    #fbbf24;
+      --text:      #e2e8f0;
+      --muted:     #64748b;
+      --radius:    12px;
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ─── HEADER ─── */
+    header {
+      background: linear-gradient(135deg, #1a1e28 0%, #0d0f14 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo-icon {
+      width: 38px; height: 38px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+    }
+    .logo h1 { font-size: 18px; font-weight: 700; }
+    .logo span { color: var(--accent2); }
+
+    .token-badge {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 13px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .token-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--muted);
+      transition: background 0.3s;
+    }
+    .token-dot.active { background: var(--green); box-shadow: 0 0 8px var(--green); }
+    #token-display { color: var(--muted); max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    /* ─── LAYOUT ─── */
+    .layout {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      flex: 1;
+      height: calc(100vh - 73px);
+      overflow: hidden;
+    }
+
+    /* ─── SIDEBAR ─── */
+    aside {
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+      padding: 20px 0;
+    }
+    .sidebar-section { margin-bottom: 6px; }
+    .sidebar-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 12px 20px 6px;
+    }
+    .endpoint-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 20px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.15s;
+      border-left: 3px solid transparent;
+    }
+    .endpoint-btn:hover { background: var(--surface2); }
+    .endpoint-btn.active {
+      background: rgba(108,99,255,0.08);
+      border-left-color: var(--accent);
+    }
+    .method-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 7px;
+      border-radius: 5px;
+      min-width: 44px;
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
+    .GET    { background: rgba(52,211,153,0.15); color: var(--green); }
+    .POST   { background: rgba(251,191,36,0.15);  color: var(--yellow); }
+    .PUT    { background: rgba(108,99,255,0.15);   color: var(--accent2); }
+    .DELETE { background: rgba(248,113,113,0.15);  color: var(--red); }
+
+    .endpoint-path {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--text);
+    }
+    .lock-icon { margin-left: auto; font-size: 11px; opacity: 0.4; }
+
+    /* ─── MAIN PANEL ─── */
+    main {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Request Panel */
+    .request-panel {
+      flex: 0 0 auto;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 28px 32px;
+    }
+    .endpoint-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .endpoint-header .method-badge { font-size: 13px; padding: 5px 12px; }
+    .endpoint-url {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 15px;
+      color: var(--text);
+      flex: 1;
+    }
+    .endpoint-desc { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .form-group { display: flex; flex-direction: column; gap: 5px; }
+    .form-group label { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; }
+    .form-group input, .form-group textarea {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      transition: border 0.2s, box-shadow 0.2s;
+      resize: vertical;
+    }
+    .form-group input:focus, .form-group textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(108,99,255,0.12);
+    }
+
+    .btn-send {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--accent), #8b5cf6);
+      border: none;
+      border-radius: 9px;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 11px 24px;
+      cursor: pointer;
+      transition: transform 0.1s, box-shadow 0.2s;
+      box-shadow: 0 4px 15px rgba(108,99,255,0.3);
+    }
+    .btn-send:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(108,99,255,0.4); }
+    .btn-send:active { transform: translateY(0); }
+    .btn-send:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 10px 18px;
+      cursor: pointer;
+      transition: background 0.15s, border 0.15s;
+    }
+    .btn-secondary:hover { background: var(--surface3); border-color: var(--accent); }
+
+    .btn-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+    /* Response Panel */
+    .response-panel {
+      flex: 1;
+      overflow: auto;
+      padding: 28px 32px;
+      background: var(--bg);
+    }
+    .response-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .response-title { font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+    .status-pill {
+      padding: 3px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .status-2xx { background: rgba(52,211,153,0.15); color: var(--green); }
+    .status-4xx { background: rgba(248,113,113,0.15); color: var(--red); }
+    .status-5xx { background: rgba(251,191,36,0.15);  color: var(--yellow); }
+
+    .response-time { font-size: 12px; color: var(--muted); font-family: 'JetBrains Mono', monospace; margin-left: auto; }
+
+    .json-viewer {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 1.8;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    .json-key   { color: #a78bfa; }
+    .json-str   { color: var(--green); }
+    .json-num   { color: #fb923c; }
+    .json-bool  { color: var(--yellow); }
+    .json-null  { color: var(--muted); }
+
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      gap: 12px;
+      color: var(--muted);
+    }
+    .empty-state .icon { font-size: 48px; opacity: 0.3; }
+    .empty-state p { font-size: 14px; }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 20px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      transform: translateY(80px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+      z-index: 999;
+      max-width: 360px;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.success { border-color: var(--green); }
+    .toast.error   { border-color: var(--red); }
+
+    .spinner {
+      width: 16px; height: 16px;
+      border: 2px solid rgba(255,255,255,0.2);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      display: none;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <div class="logo-icon">⚡</div>
+    <h1>Laravel API <span>Explorer</span></h1>
+  </div>
+  <div class="token-badge">
+    <div class="token-dot" id="dot"></div>
+    <span id="token-display">No token — login first</span>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside>
+    <div class="sidebar-section">
+      <div class="sidebar-label">🔓 Public</div>
+      <button class="endpoint-btn active" onclick="selectEndpoint(this,'POST','/api/register','Register a new user')" data-id="register">
+        <span class="method-badge POST">POST</span>
+        <span class="endpoint-path">/api/register</span>
+      </button>
+      <button class="endpoint-btn" onclick="selectEndpoint(this,'POST','/api/login','Login and receive a Bearer token')" data-id="login">
+        <span class="method-badge POST">POST</span>
+        <span class="endpoint-path">/api/login</span>
+      </button>
+      <button class="endpoint-btn" onclick="selectEndpoint(this,'GET','/api/demo-items','Public paginated items (no auth)')" data-id="demo-items">
+        <span class="method-badge GET">GET</span>
+        <span class="endpoint-path">/api/demo-items</span>
+      </button>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">🔐 Protected — Sanctum</div>
+      <button class="endpoint-btn" onclick="selectEndpoint(this,'GET','/api/me','Get authenticated user profile')" data-id="me">
+        <span class="method-badge GET">GET</span>
+        <span class="endpoint-path">/api/me</span>
+        <span class="lock-icon">🔒</span>
+      </button>
+      <button class="endpoint-btn" onclick="selectEndpoint(this,'GET','/api/items','Paginated items list')" data-id="items-index">
+        <span class="method-badge GET">GET</span>
+        <span class="endpoint-path">/api/items</span>
+        <span class="lock-icon">🔒</span>
+      </button>
+      <button class="endpoint-btn" onclick="selectEndpoint(this,'POST','/api/items','Create a new item')" data-id="items-store">
+        <span class="method-badge POST">POST</span>
+        <span class="endpoint-path">/api/items</span>
+        <span class="lock-icon">🔒</span>
+      </button>
+      <button class="endpoint-btn" onclick="selectEndpoint(this,'GET','/api/items/{id}','Get single item by ID')" data-id="items-show">
+        <span class="method-badge GET">GET</span>
+        <span class="endpoint-path">/api/items/{id}</span>
+        <span class="lock-icon">🔒</span>
+      </button>
+      <button class="endpoint-btn" onclick="selectEndpoint(this,'PUT','/api/items/{id}','Update an item')" data-id="items-update">
+        <span class="method-badge PUT">PUT</span>
+        <span class="endpoint-path">/api/items/{id}</span>
+        <span class="lock-icon">🔒</span>
+      </button>
+      <button class="endpoint-btn" onclick="selectEndpoint(this,'DELETE','/api/items/{id}','Delete an item')" data-id="items-destroy">
+        <span class="method-badge DELETE">DEL</span>
+        <span class="endpoint-path">/api/items/{id}</span>
+        <span class="lock-icon">🔒</span>
+      </button>
+      <button class="endpoint-btn" onclick="selectEndpoint(this,'POST','/api/logout','Revoke current token')" data-id="logout">
+        <span class="method-badge POST">POST</span>
+        <span class="endpoint-path">/api/logout</span>
+        <span class="lock-icon">🔒</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main>
+    <!-- Request Panel -->
+    <div class="request-panel">
+      <div class="endpoint-header">
+        <span class="method-badge POST" id="req-method">POST</span>
+        <span class="endpoint-url" id="req-url">/api/register</span>
+      </div>
+      <p class="endpoint-desc" id="req-desc">Register a new user account. On success, the Bearer token is auto-saved and applied to all protected requests.</p>
+
+      <div class="form-grid" id="fields-container"></div>
+
+      <div class="btn-row">
+        <button class="btn-send" id="send-btn" onclick="sendRequest()">
+          <span>▶ Send Request</span>
+          <div class="spinner" id="spinner"></div>
+        </button>
+        <button class="btn-secondary" onclick="clearResponse()">✕ Clear</button>
+        <button class="btn-secondary" onclick="clearToken()" title="Remove saved token">🗑 Clear Token</button>
+      </div>
+    </div>
+
+    <!-- Response Panel -->
+    <div class="response-panel" id="response-panel">
+      <div class="empty-state" id="empty-state">
+        <div class="icon">⚡</div>
+        <p>Select an endpoint and click <strong>Send Request</strong> to see the response here.</p>
+      </div>
+      <div id="response-content" style="display:none">
+        <div class="response-header">
+          <span class="response-title">Response</span>
+          <span class="status-pill" id="status-pill"></span>
+          <span class="response-time" id="response-time"></span>
+        </div>
+        <div class="json-viewer" id="json-output"></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <span id="toast-icon"></span>
+  <span id="toast-msg"></span>
+</div>
+
+<script>
+  const BASE = window.location.origin;
+  let currentEndpoint = 'register';
+  let token = localStorage.getItem('api_token') || null;
+
+  // ── Endpoint definitions ──────────────────────────────────────────────
+  const endpoints = {
+    'register': {
+      method: 'POST', url: '/api/register',
+      desc: 'Register a new user account. On success, the Bearer token is auto-saved and applied to all protected requests.',
+      fields: [
+        { name:'name',                  label:'Name',                  placeholder:'Jackson Dev' },
+        { name:'email',                 label:'Email',                  placeholder:'jackson@example.com' },
+        { name:'password',              label:'Password',               placeholder:'password123',  type:'password' },
+        { name:'password_confirmation', label:'Confirm Password',       placeholder:'password123',  type:'password' },
+      ]
+    },
+    'login': {
+      method: 'POST', url: '/api/login',
+      desc: 'Login with your credentials. The returned Bearer token is automatically stored and injected into protected requests.',
+      fields: [
+        { name:'email',    label:'Email',    placeholder:'jackson@example.com' },
+        { name:'password', label:'Password', placeholder:'password123', type:'password' },
+      ]
+    },
+    'demo-items': {
+      method: 'GET', url: '/api/demo-items',
+      desc: 'Public endpoint — no authentication required. Returns a paginated list of seeded items.',
+      fields: [
+        { name:'page',     label:'Page',     placeholder:'1' },
+        { name:'per_page', label:'Per Page', placeholder:'15' },
+      ]
+    },
+    'me': {
+      method: 'GET', url: '/api/me',
+      desc: 'Returns the currently authenticated user profile. Requires Bearer token.',
+      fields: []
+    },
+    'items-index': {
+      method: 'GET', url: '/api/items',
+      desc: 'Returns a paginated list of items. Requires Bearer token.',
+      fields: [
+        { name:'page',     label:'Page',     placeholder:'1' },
+        { name:'per_page', label:'Per Page', placeholder:'15' },
+      ]
+    },
+    'items-store': {
+      method: 'POST', url: '/api/items',
+      desc: 'Create a new item resource. Requires Bearer token.',
+      fields: [
+        { name:'name',        label:'Name',        placeholder:'Wireless Keyboard' },
+        { name:'sku',         label:'SKU',         placeholder:'KB-001' },
+        { name:'description', label:'Description', placeholder:'A great keyboard...' },
+        { name:'price',       label:'Price',       placeholder:'49.99' },
+        { name:'quantity',    label:'Quantity',    placeholder:'100' },
+      ]
+    },
+    'items-show': {
+      method: 'GET', url: '/api/items/{id}',
+      desc: 'Retrieve a single item by ID. Requires Bearer token.',
+      fields: [
+        { name:'id', label:'Item ID', placeholder:'1' },
+      ]
+    },
+    'items-update': {
+      method: 'PUT', url: '/api/items/{id}',
+      desc: 'Update an existing item. Requires Bearer token.',
+      fields: [
+        { name:'id',          label:'Item ID',     placeholder:'1' },
+        { name:'name',        label:'Name',        placeholder:'Updated Name' },
+        { name:'price',       label:'Price',       placeholder:'59.99' },
+        { name:'quantity',    label:'Quantity',    placeholder:'200' },
+        { name:'description', label:'Description', placeholder:'Updated description...' },
+      ]
+    },
+    'items-destroy': {
+      method: 'DELETE', url: '/api/items/{id}',
+      desc: 'Delete an item permanently. Requires Bearer token.',
+      fields: [
+        { name:'id', label:'Item ID', placeholder:'1' },
+      ]
+    },
+    'logout': {
+      method: 'POST', url: '/api/logout',
+      desc: 'Revoke the current Bearer token. After this, the token will no longer work.',
+      fields: []
+    },
+  };
+
+  // ── Token state ───────────────────────────────────────────────────────
+  function updateTokenUI() {
+    const dot  = document.getElementById('dot');
+    const disp = document.getElementById('token-display');
+    if (token) {
+      dot.classList.add('active');
+      disp.style.color = '#34d399';
+      disp.textContent  = token.substring(0, 28) + '...';
+      disp.title        = token;
+    } else {
+      dot.classList.remove('active');
+      disp.style.color  = '';
+      disp.textContent  = 'No token — login first';
+      disp.title        = '';
+    }
+  }
+
+  function clearToken() {
+    token = null;
+    localStorage.removeItem('api_token');
+    updateTokenUI();
+    showToast('🗑 Token cleared', 'error');
+  }
+
+  // ── Endpoint selection ────────────────────────────────────────────────
+  function selectEndpoint(btn, method, url, desc) {
+    document.querySelectorAll('.endpoint-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentEndpoint = btn.dataset.id;
+
+    const ep = endpoints[currentEndpoint];
+    document.getElementById('req-method').textContent  = method;
+    document.getElementById('req-method').className    = `method-badge ${method}`;
+    document.getElementById('req-url').textContent     = url;
+    document.getElementById('req-desc').textContent    = desc;
+
+    renderFields(ep.fields);
+    clearResponse();
+  }
+
+  function renderFields(fields) {
+    const container = document.getElementById('fields-container');
+    container.innerHTML = '';
+    fields.forEach(f => {
+      const g = document.createElement('div');
+      g.className = 'form-group';
+      g.innerHTML = `
+        <label>${f.label}</label>
+        <input type="${f.type || 'text'}" name="${f.name}" placeholder="${f.placeholder}" />
+      `;
+      container.appendChild(g);
+    });
+  }
+
+  // ── Send request ──────────────────────────────────────────────────────
+  async function sendRequest() {
+    const ep  = endpoints[currentEndpoint];
+    let url   = BASE + ep.url;
+    const method = ep.method;
+
+    // Gather fields
+    const inputs = {};
+    document.querySelectorAll('#fields-container input').forEach(i => {
+      if (i.value.trim()) inputs[i.name] = i.value.trim();
+    });
+
+    // Replace path params
+    if (inputs.id) {
+      url = url.replace('{id}', inputs.id);
+      delete inputs.id;
+    }
+
+    // Append query params for GET
+    if (method === 'GET' && Object.keys(inputs).length > 0) {
+      url += '?' + new URLSearchParams(inputs).toString();
+    }
+
+    // Build headers
+    const headers = { 'Content-Type': 'application/json', 'Accept': 'application/json' };
+    if (token) headers['Authorization'] = 'Bearer ' + token;
+
+    // Build body for non-GET
+    const body = (method !== 'GET') ? JSON.stringify(inputs) : undefined;
+
+    // UI feedback
+    const btn = document.getElementById('send-btn');
+    const spin = document.getElementById('spinner');
+    btn.disabled = true;
+    spin.style.display = 'block';
+
+    const t0 = performance.now();
+    let res, data;
+    try {
+      res  = await fetch(url, { method, headers, body });
+      data = await res.json();
+    } catch(e) {
+      showToast('❌ Network error: ' + e.message, 'error');
+      btn.disabled = false; spin.style.display = 'none';
+      return;
+    }
+    const elapsed = Math.round(performance.now() - t0);
+
+    btn.disabled = false; spin.style.display = 'none';
+
+    // Auto-save token on login/register
+    if (res.ok && data?.data?.access_token) {
+      token = data.data.access_token;
+      localStorage.setItem('api_token', token);
+      updateTokenUI();
+      showToast('🔑 Token saved automatically!', 'success');
+    }
+
+    // Show response
+    showResponse(res.status, data, elapsed);
+  }
+
+  // ── Render response ───────────────────────────────────────────────────
+  function showResponse(status, data, ms) {
+    document.getElementById('empty-state').style.display = 'none';
+    document.getElementById('response-content').style.display = 'block';
+
+    const pill = document.getElementById('status-pill');
+    pill.textContent = status + ' ' + statusText(status);
+    pill.className   = 'status-pill ' + (status < 300 ? 'status-2xx' : status < 500 ? 'status-4xx' : 'status-5xx');
+
+    document.getElementById('response-time').textContent = ms + ' ms';
+    document.getElementById('json-output').innerHTML = syntaxHighlight(JSON.stringify(data, null, 2));
+  }
+
+  function clearResponse() {
+    document.getElementById('empty-state').style.display = 'flex';
+    document.getElementById('response-content').style.display = 'none';
+  }
+
+  // ── Syntax highlight ──────────────────────────────────────────────────
+  function syntaxHighlight(json) {
+    return json
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, match => {
+        let cls = 'json-num';
+        if (/^"/.test(match)) cls = /:$/.test(match) ? 'json-key' : 'json-str';
+        else if (/true|false/.test(match)) cls = 'json-bool';
+        else if (/null/.test(match)) cls = 'json-null';
+        return `<span class="${cls}">${match}</span>`;
+      });
+  }
+
+  function statusText(s) {
+    const m = {200:'OK',201:'Created',204:'No Content',401:'Unauthorized',403:'Forbidden',404:'Not Found',422:'Unprocessable',500:'Server Error'};
+    return m[s] || '';
+  }
+
+  // ── Toast ─────────────────────────────────────────────────────────────
+  function showToast(msg, type = 'success') {
+    const t = document.getElementById('toast');
+    document.getElementById('toast-msg').textContent = msg;
+    t.className = `toast ${type} show`;
+    setTimeout(() => t.className = `toast ${type}`, 3500);
+  }
+
+  // ── Init ──────────────────────────────────────────────────────────────
+  updateTokenUI();
+  renderFields(endpoints['register'].fields);
+</script>
+</body>
+</html>
