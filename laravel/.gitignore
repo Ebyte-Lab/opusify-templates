@@ -1,0 +1,22 @@
+# Caches and Environments
+/.env
+/bootstrap/cache/*
+/storage/*.key
+/storage/framework/cache/data/*
+/storage/framework/views/*
+/storage/framework/sessions/*
+/storage/framework/testing/*
+
+# Dependency Managers
+/vendor/
+/node_modules/
+
+# IDEs, OS, and Logs
+.phpunit.result.cache
+.env.backup
+.env.production
+/public/hot
+/public/storage
+/storage/*.log
+.DS_Store
+Thumbs.db
