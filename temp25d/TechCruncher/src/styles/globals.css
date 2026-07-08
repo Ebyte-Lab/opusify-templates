@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #FFFFFF;
+  --primary: #16A34A;     /* Green 600 */
+  --secondary: #F3F4F6;   /* Gray 100 */
+  --text: #111827;        /* Gray 900 */
+  --border: #E5E7EB;      /* Gray 200 */
+}
+
+/* Dark Theme Variables */
+.dark {
+  --bg: #0F172A;          /* Slate 900 */
+  --primary: #22C55E;     /* Green 500 */
+  --secondary: #1E293B;   /* Slate 800 */
+  --text: #F8FAFC;        /* Slate 50 */
+  --border: #334155;      /* Slate 700 */
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6, .font-heading {
+  font-family: 'Archivo Black', sans-serif;
+  color: var(--text);
+}
+
+/* Marquee Continuous Ticker Animation */
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-ticker {
+  animation: marquee 25s linear infinite;
+}
+.animate-ticker:hover {
+  animation-play-state: paused;
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--secondary);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
