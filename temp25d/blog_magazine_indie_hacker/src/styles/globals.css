@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #1E1E1E;          /* Dark Charcoal */
+  --primary: #F472B6;     /* Pink Accent */
+  --secondary: #2D2D2D;   /* Muted Grey */
+  --text: #D4D4D4;        /* Light Grey */
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6, .font-heading {
+  font-family: 'Inconsolata', monospace;
+  color: #FFFFFF;
+}
+
+/* Active highlight for TOC */
+.toc-active {
+  color: var(--primary) !important;
+  border-left-color: var(--primary) !important;
+  padding-left: 1rem;
+}
+
+/* Custom scrollbar for terminal/retro feel */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--secondary);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* Selection styling */
+::selection {
+  background: rgba(244, 114, 182, 0.3);
+  color: #FFFFFF;
+}

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>hack_journal // devlog</title>
+  <link>http://localhost:5173/</link>
+  <description>Deep-dives into systems engineering, performance metrics, and building in public.</description>
+  <language>en-us</language>
+  <lastBuildDate>Thu, 09 Jul 2026 09:00:00 GMT</lastBuildDate>
+  <atom:link href="http://localhost:5173/rss.xml" rel="self" type="application/rss+xml" />
+  
+  <item>
+    <title>Compiling in the Cold: The Art of Sub-Millisecond Server Actions</title>
+    <link>http://localhost:5173/articles/compiling-in-the-cold</link>
+    <guid>http://localhost:5173/articles/compiling-in-the-cold</guid>
+    <pubDate>Mon, 15 Jun 2026 08:00:00 GMT</pubDate>
+    <description>Client bundles are treated as landfill space. We bypass Next.js cold boots using a custom Go worker, connection ping, and Docker swarms.</description>
+  </item>
+  
+  <item>
+    <title>Taming the Pool: Optimizing Edge Database Connection Overhead</title>
+    <link>http://localhost:5173/articles/taming-the-database-pool</link>
+    <guid>http://localhost:5173/articles/taming-the-database-pool</guid>
+    <pubDate>Mon, 22 Jun 2026 09:15:00 GMT</pubDate>
+    <description>Database connections on serverless platforms are notoriously transient. Learn how to establish a TCP multiplexer proxy for fast handshakes.</description>
+  </item>
+
+  <item>
+    <title>Bypassing Kubernetes: Simple Swarm-Based Deployments for Solopreneurs</title>
+    <link>http://localhost:5173/articles/docker-swarm-routing</link>
+    <guid>http://localhost:5173/articles/docker-swarm-routing</guid>
+    <pubDate>Mon, 29 Jun 2026 14:20:00 GMT</pubDate>
+    <description>Kubernetes introduces massive configuration fatigue. Docker Swarm offers a built-in orchestration layer that requires no external setup.</description>
+  </item>
+</channel>
+</rss>
